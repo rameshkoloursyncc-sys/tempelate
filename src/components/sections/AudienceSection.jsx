@@ -43,10 +43,16 @@ const AudienceSection = ({ title, audiences, cta, disclaimer }) => {
             {/* Checkmark Icon */}
             <div className="relative w-[65px] h-[65px] flex items-center justify-center flex-shrink-0">
               {/* Outer ring */}
-              <div className="absolute inset-0 rounded-full border-2 border-[#b699ff80]"></div>
+              <div 
+                  
+              className="absolute inset-0 rounded-full border-2 border-[#b699ff80]"></div>
 
               {/* Inner gradient circle with checkmark */}
-              <div className="relative flex-none w-[45px] h-[45px] rounded-full bg-gradient-to-b from-[#4316db] to-[#9076e7] shadow-[0_10px_20px_#b699ff4d] flex items-center justify-center">
+              <div
+                    style={{
+                        background: 'var(--gradient-primary)',
+                    }}
+               className="relative flex-none w-[45px] h-[45px] rounded-full bg-gradient-to-b from-[#4316db] to-[#9076e7] shadow-[0_10px_20px_#b699ff4d] flex items-center justify-center">
                 {/* Checkmark SVG */}
                 <svg
                   width="24"
@@ -75,6 +81,9 @@ const AudienceSection = ({ title, audiences, cta, disclaimer }) => {
 
       <div className="text-center">
         <motion.a
+          style={{
+                        background: 'var(--gradient-primary)',
+                    }}
           href={cta.link}
           className="inline-block bg-gradient-to-r from-[#7c3aed] via-[#ec4899] to-[#ef4444] text-white py-4 w-[90%] rounded-md font-bold text-lg shadow-xl mb-4 relative overflow-hidden group"
       

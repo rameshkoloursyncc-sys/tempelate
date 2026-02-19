@@ -32,10 +32,20 @@ const InstructorSection = ({ title, instructor }) => {
           className="space-y-6"
         >
           <div>
-            <h3 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-[#ec4899] to-[#ef4444] bg-clip-text text-transparent mb-2">
+            <h3 
+            style={{ 
+  background: 'var(--gradient-primary)',
+ WebkitBackgroundClip: 'text'
+}}
+            className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-[#ec4899] to-[#ef4444] bg-clip-text text-transparent mb-2">
               {instructor.name}
             </h3>
-            <p className="text-[#ec4899] font-semibold text-lg">{instructor.title}</p>
+            <p 
+            style={{ 
+  background: 'var(--gradient-primary)',
+  WebkitBackgroundClip: 'text'
+}}
+            className="font-semibold text-lg">{instructor.title}</p>
           </div>
 
           <div className="space-y-4 text-white/80 leading-relaxed">

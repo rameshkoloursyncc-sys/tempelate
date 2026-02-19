@@ -15,7 +15,12 @@ const OpportunitySection = ({ title, opportunities , }) => {
               alt="waves"
                 className="mx-auto block mb-4 w-10 h-10"
             />
-            <h3 className="text-3xl font-bold bg-gradient-to-r from-pink-400 to-purple-500 bg-clip-text text-transparent mb-4">
+            <h3 
+            style={{ 
+  background: 'var(--gradient-primary)',
+WebkitBackgroundClip: 'text'
+}}
+            className="text-3xl font-bold bg-gradient-to-r from-pink-400 to-purple-500 bg-clip-text text-transparent mb-4">
               {opportunity.stat}
             </h3>
             <p className="text-white/80 leading-relaxed">{opportunity.description}</p>

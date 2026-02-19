@@ -10,7 +10,10 @@ const DescriptionSection = ({ title, description , image }) => {
           />
         </div>
       )}
-      <h2 className="text-5xl font-bold  mb-6 bg-gradient-to-r from-[#ff7373] to-[#491eb8] bg-clip-text text-transparent">{title}</h2>
+      <h2   style={{
+                        background: 'var(--gradient-primary)',
+                        WebkitBackgroundClip: 'text'
+                    }} className="text-5xl font-bold  mb-6 bg-gradient-to-r from-[#ff7373] to-[#491eb8] bg-clip-text text-transparent">{title}</h2>
       <p className="text-xl text-white/80 leading-relaxed">{description}</p>
     </section>
   );

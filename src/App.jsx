@@ -22,9 +22,31 @@ import WebflowHeroImage from './assets/5f2db973311dff83f9829e34_webflow-home-her
 import Rupees from './assets/carbon_currency-rupee.svg'
 import GrowIcon from './assets/uil_arrow-growth.svg'
 import Briefcase from './assets/bx_bx-briefcase-alt-2.svg'
+import { ThemeProvider } from './contexts/ThemeContext'
+
+  // Option 2: Use theme from props/config
+  const theme = {
+    colors: {
+      primary: 'linear-gradient(135deg, #0d0826 0%, #0d0826 100%)',
+      secondary: 'radial-gradient(circle_at_100%_100%,#ffffff03,#ffffff2b)',
+      accent: '#2a2f4a',
+      background: '#0f172a',
+      surface: '#1a1f3a',
+      text: '#ffffff',
+    },
+    gradients: {
+      primary: 'linear-gradient(135deg, #ef4444 0%, #7c3aed 100%)',
+      secondary: 'linear-gradient(135deg, #ef4444 0%, #ec4899 50%, #00d4aa 100%)',
+    },
+    fonts: {
+      primary: "'Montserrat', Poppins",
+      secondary: "'Montserrat', Poppins",
+    },
+  };
 
 function App() {
   return (
+    <ThemeProvider theme={theme}>
     <div className="relative">
       <StickyHeader offerText="🔥Early Bird Offer: Price resets to ₹4,999 when the timer below hits 0." />
       <PageLayout showBottomWave={true}>
@@ -242,6 +264,7 @@ function App() {
         <Footer />
       </PageLayout>
     </div>
+    </ThemeProvider>
   )
 }
 

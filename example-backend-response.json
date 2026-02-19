@@ -1,0 +1,18 @@
+{
+  "colors": {
+    "primary": "#7c3aed",
+    "secondary": "#ec4899",
+    "accent": "#ef4444",
+    "background": "#0f172a",
+    "surface": "#1a1f3a",
+    "text": "#ffffff"
+  },
+  "gradients": {
+    "primary": "linear-gradient(135deg, #7c3aed 0%, #ec4899 50%, #ef4444 100%)",
+    "secondary": "linear-gradient(135deg, #ef4444 0%, #ec4899 50%, #00d4aa 100%)"
+  },
+  "fonts": {
+    "primary": "'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+    "secondary": "'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+  }
+}

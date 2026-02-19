@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import divider from "../../assets/light-glow.svg";
 import { motion } from "framer-motion";
-const UrgencySection = ({ title, description, disclaimer, targetDate , cta }) => {
+const UrgencySection = ({ title, description, disclaimer, targetDate, cta }) => {
   const [time, setTime] = useState(calcTime());
 
   function calcTime() {
@@ -28,12 +28,14 @@ const UrgencySection = ({ title, description, disclaimer, targetDate , cta }) =>
     </div>
   );
 
- const Separator = () => (
-  <img src={divider} alt="" className="opacity-90 select-none" />
-);
+  const Separator = () => (
+    <img src={divider} alt="" className="opacity-90 select-none" />
+  );
 
   return (
-    <section className="bg-[#0d0826] bg-no-repeat bg-[position:100%_0] bg-fixed bg-[url('/images/bg-backdrop-2.svg')] m-10">
+    <section
+     
+      className=" bg-no-repeat bg-[position:100%_0] bg-fixed bg-[url('/images/bg-backdrop-2.svg')] m-10">
 
       <div className="w-full max-w-[1100px] mx-auto px-[20px] py-16 text-center antialiased">
 
@@ -63,24 +65,28 @@ const UrgencySection = ({ title, description, disclaimer, targetDate , cta }) =>
 
         {/* CTA Button */}
         <div className="text-start">
-        <motion.a
-          href={cta.link}
-          className="inline-block bg-gradient-to-r from-[#7c3aed] via-[#ec4899] to-[#ef4444] text-white py-6 w-full rounded-md font-bold text-lg shadow-xl mb-4  ml-10 mt-20 relative overflow-hidden group"
-      
-        >
-          <span className="relative z-10 ml-10">{cta.text}</span>
-          <span className="relative z-10 line-through">{cta.text1}</span>
-          <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-[#ef4444] via-[#ec4899] to-[#7c3aed]"
-            initial={{ x: "100%" }}
-            whileHover={{ x: 0 }}
-            transition={{ duration: 0.3 }}
-          />
-          <span className="absolute right-4 top-1/2 -translate-y-1/2 text-4xl mr-10">↗</span>
-        </motion.a>
-       
-      </div>
- <p className="text-white/70 text-sm mt-2 mb-10">{disclaimer}</p>
+          <motion.a
+            style={{
+              background: 'var(--gradient-primary)',
+              color: 'var(--color-text)'
+            }}
+            href={cta.link}
+            className="inline-block bg-gradient-to-r from-[#7c3aed] via-[#ec4899] to-[#ef4444] text-white py-6 w-full rounded-md font-bold text-lg shadow-xl mb-4  ml-10 mt-20 relative overflow-hidden group"
+
+          >
+            <span className="relative z-10 ml-10">{cta.text}</span>
+            <span className="relative z-10 line-through">{cta.text1}</span>
+            <motion.div
+              className="absolute inset-0 bg-gradient-to-r from-[#ef4444] via-[#ec4899] to-[#7c3aed]"
+              initial={{ x: "100%" }}
+              whileHover={{ x: 0 }}
+              transition={{ duration: 0.3 }}
+            />
+            <span className="absolute right-4 top-1/2 -translate-y-1/2 text-4xl mr-10">↗</span>
+          </motion.a>
+
+        </div>
+        <p className="text-white/70 text-sm mt-2 mb-10">{disclaimer}</p>
       </div>
     </section>
   );

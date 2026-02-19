@@ -26,8 +26,12 @@ const CurriculumSection = ({ title, modules, cta, disclaimer }) => {
         <div className="absolute left-1/2 top-0 bottom-0 w-[2px] -translate-x-1/2 bg-gradient-to-b from-transparent via-white/10 to-transparent">
           {/* Animated Gradient Line */}
           <motion.div
+            style={{
+              background: 'var(--gradient-primary)',
+              color: 'var(--color-text)',
+              height: lineHeight
+            }}
             className="absolute top-0 left-0 w-full bg-gradient-to-b from-[#7c3aed] via-[#ec4899] to-[#ef4444]"
-            style={{ height: lineHeight }}
           />
         </div>
 
@@ -35,7 +39,7 @@ const CurriculumSection = ({ title, modules, cta, disclaimer }) => {
         <div className="space-y-32">
           {modules.map((module, index) => {
             const isLeft = index % 2 === 0;
-            
+
             return (
               <motion.div
                 key={index}
@@ -43,9 +47,8 @@ const CurriculumSection = ({ title, modules, cta, disclaimer }) => {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.6, delay: 0.2 }}
-                className={`relative grid grid-cols-1 md:grid-cols-2 gap-8 items-center ${
-                  isLeft ? "" : "md:flex-row-reverse"
-                }`}
+                className={`relative grid grid-cols-1 md:grid-cols-2 gap-8 items-center ${isLeft ? "" : "md:flex-row-reverse"
+                  }`}
               >
                 {/* Image Side */}
                 <div className={`${isLeft ? "md:pr-16" : "md:pl-16 md:order-2"}`}>
@@ -70,6 +73,10 @@ const CurriculumSection = ({ title, modules, cta, disclaimer }) => {
                     {module.description}
                   </p>
                   <motion.a
+                    style={{
+                      background: 'var(--gradient-primary)',
+                      color: 'var(--color-text)',
+                    }}
                     href={module.cta.link}
                     className="inline-block bg-gradient-to-r from-[#7c3aed] via-[#ec4899] to-[#ef4444] text-white px-8 py-3 rounded-full font-semibold shadow-xl"
                     whileHover={{ scale: 1.05 }}
@@ -80,7 +87,12 @@ const CurriculumSection = ({ title, modules, cta, disclaimer }) => {
                 </div>
 
                 {/* Center Dot */}
-                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-gradient-to-br from-[#ec4899] to-[#ef4444] rounded-full border-4 border-[#0f172a] z-10" />
+                <div
+                 style={{
+                      background: 'var(--gradient-primary)',
+                      color: 'var(--color-text)',
+                    }}
+                 className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-gradient-to-br from-[#ec4899] to-[#ef4444] rounded-full border-4 border-[#0f172a] z-10" />
               </motion.div>
             );
           })}
@@ -99,7 +111,7 @@ const CurriculumSection = ({ title, modules, cta, disclaimer }) => {
               <motion.div
                 className="absolute -inset-[3px] rounded-[32px]"
                 style={{
-                  background: "linear-gradient(353deg, #491eb8, #ff7373)",
+                  background: 'var(--gradient-primary)',
                   clipPath: useTransform(
                     scrollYProgress,
                     [0.7, 0.75, 0.8, 0.85, 0.9],
@@ -113,7 +125,7 @@ const CurriculumSection = ({ title, modules, cta, disclaimer }) => {
                   ),
                 }}
               />
-              
+
               {/* Dark background padding */}
               <div className="relative bg-[#0f172a] rounded-[24px] p-4">
                 <img
@@ -133,6 +145,11 @@ const CurriculumSection = ({ title, modules, cta, disclaimer }) => {
       {/* Bottom CTA */}
       <div className="text-center mt-20">
         <motion.a
+          style={{
+            background: 'var(--gradient-primary)',
+            color: 'var(--color-text)',
+            height: lineHeight
+          }}
           href={cta.link}
           className="inline-block bg-gradient-to-r from-[#7c3aed] via-[#ec4899] to-[#ef4444] text-white px-12 py-4 rounded-full font-bold text-lg shadow-xl mb-4"
           whileHover={{ scale: 1.05 }}

@@ -31,7 +31,8 @@ const HeroSection = ({
                 <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
                     <a
                         href={cta?.link}
-                        className="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-8 py-4 rounded-full font-bold shadow-2xl hover:scale-105 transition"
+                        className=" text-white px-8 py-4 rounded-full font-bold shadow-2xl hover:scale-205 transition"
+                        style={{ background: 'var(--gradient-primary)' }}
                     >
                         {cta?.text}
                     </a>
@@ -40,9 +41,30 @@ const HeroSection = ({
 
             {/* ===== TITLE ===== */}
             <h1 className="text-5xl md:text-6xl font-bold leading-tight mt-6">
-                {title.line1} <strong className="bg-gradient-to-r from-pink-400 to-purple-500 bg-clip-text text-transparent">{title.strong1}</strong>, <br />
-                <strong className="bg-gradient-to-r from-pink-400 to-purple-500 bg-clip-text text-transparent">{title.strong2}</strong> {title.line2}{" "}
-                <strong className="bg-gradient-to-r from-pink-400 to-purple-500 bg-clip-text text-transparent">{title.strong3}</strong>
+                {title.line1} {" "}
+                <strong
+                    style={{
+                        background: 'var(--gradient-primary)',
+                        WebkitBackgroundClip: 'text'
+                    }}
+                    className="bg-clip-text text-transparent"
+                >
+                     { title.strong1}
+                </strong>, <br />
+                <strong
+                    style={{
+                        background: 'var(--gradient-primary)',
+                        WebkitBackgroundClip: 'text'
+                    }}
+                    className="bg-clip-text text-transparent"
+                >{title.strong2}</strong> {title.line2}{" "} <br />
+                <strong
+                    style={{
+                        background: 'var(--gradient-primary)',
+                        WebkitBackgroundClip: 'text'
+                    }}
+                    className="bg-clip-text text-transparent"
+                >{title.strong3}</strong>
             </h1>
 
             {/* ===== TAGLINE ===== */}
@@ -103,7 +125,10 @@ const HeroSection = ({
                         <div key={index} className="flex items-center w-full justify-center">
                             {/* Stat Block */}
                             <div className="text-center">
-                                <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-pink-400 to-purple-500 bg-clip-text text-transparent">
+                                <h2 style={{
+                                    background: 'var(--gradient-primary)',
+                                    WebkitBackgroundClip: 'text'
+                                }} className="text-3xl md:text-4xl font-bold  bg-clip-text text-transparent">
                                     {stat.number}
                                 </h2>
                                 <p className="text-white/80 mt-2 text-sm md:text-base">{stat.label}</p>

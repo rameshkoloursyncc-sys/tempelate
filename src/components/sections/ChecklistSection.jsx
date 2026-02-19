@@ -27,6 +27,10 @@ const ChecklistSection = ({ title, subtitle, checklistItems, cta }) => {
           </div>
 
           <motion.a
+          style={{ 
+  background: 'var(--gradient-primary)',
+  color: 'var(--color-text)'
+}}
             href={cta.link}
             className="inline-block bg-gradient-to-r from-[#7c3aed] via-[#ec4899] to-[#ef4444] text-white px-12 py-4 rounded-full font-bold text-lg shadow-xl relative overflow-hidden group"
             whileHover={{ scale: 1.05 }}
@@ -41,6 +45,9 @@ const ChecklistSection = ({ title, subtitle, checklistItems, cta }) => {
         <div className="space-y-4">
           {checklistItems.map((item, index) => (
             <motion.div
+                  style={{
+                        background: 'var(--color-primary)',
+                    }}
               key={index}
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -50,11 +57,18 @@ const ChecklistSection = ({ title, subtitle, checklistItems, cta }) => {
               className="relative bg-[#1a1f3a] border border-[#2d3250] rounded-2xl p-6 flex items-start gap-4 cursor-pointer transition-all hover:bg-[#1f2442]"
             >
               {/* Custom Checkbox */}
-              <div className="relative w-[48px] h-[48px] flex items-center justify-center flex-shrink-0">
+              <div
+              
+               className="relative w-[48px] h-[48px] flex items-center justify-center flex-shrink-0">
                 {/* Static background circle - always visible */}
-                <div className="absolute inset-0 rounded-xl bg-[#2a2f4a] flex items-center justify-center">
+                <div
+                      style={{
+                        background: 'var(--color-accent)',
+                    }}
+                 className="absolute inset-0 rounded-xl bg-[#2a2f4a] flex items-center justify-center">
                   {/* Checkmark icon with animation */}
                   <motion.img
+                   
                     src={CheckIcon}
                     alt="check"
                     className="w-6 h-6"

@@ -8,6 +8,7 @@ const HeroSection = ({
     video,
     mentor,
     stats,
+    logo,
 }) => {
     const [showEnrollButton, setShowEnrollButton] = useState(true);
     const heroRef = useRef(null);
@@ -40,6 +41,9 @@ const HeroSection = ({
             )}
 
             {/* ===== TITLE ===== */}
+            <div className='w-25 h-25 m-auto bg-transparent'>
+                <img src={logo} alt="Logo" className='bg-green' />
+            </div>
             <h1 className="text-5xl md:text-6xl font-bold leading-tight mt-6">
                 {title.line1} {" "}
                 <strong

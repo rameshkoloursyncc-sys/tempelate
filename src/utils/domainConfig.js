@@ -72,11 +72,16 @@ export const getDefaultConfig = () => ({
       videoUrl: 'https://vimeo.com/659871207/f4df3defe9',
       mentorName: 'Keshav Sharma',
       mentorSubtitle: 'Our Students have worked in',
+      ctaIcon: '/src/assets/wf-buton-arrow.svg',
+      videoThumbnail: '/src/assets/thumbnil.jpeg',
+      videoPlayIcon: '/src/assets/Playbutton.svg',
+      mentorImage: '/src/assets/Keshav.png',
     },
     intro: {
       title: 'You can even build this website yourself',
       emoji: '👇',
       ctaText: 'Enroll Now',
+      image: '/src/assets/5f2db973311dff83f9829e34_webflow-home-hero-1.png',
     },
     description: {
       title: 'What is Webflow, and why should you care?',
@@ -104,13 +109,16 @@ export const getDefaultConfig = () => ({
           number: '01',
           title: 'Introduction to Webflow',
           description: '- What is No-Code web design\n- Technologies involved in web design\n- Overview of the Webflow designer',
+          image: '/src/assets/wbflow-1-p-800.webp',
         },
         {
           number: '02',
           title: 'Personal Portfolio Website',
           description: 'Build a personal website for yourself to showcase your skills to the world, and let the sales walk towards you.',
+          image: '/src/assets/portfolio-1-1-p-800.webp',
         },
       ],
+      certificateImage: '/src/assets/certificates.png',
     },
     bonuses: {
       title: 'Unlock Bonuses Worth ₹20,000',
@@ -155,6 +163,7 @@ export const getDefaultConfig = () => ({
       name: 'Keshav Sharma',
       title: 'Founder at EPYC & Magik',
       bio: "Hey! I am Keshav, a designer turned No-Code entrepreneur and I help businesses save precious time and money by building software without code.\n\nI started India's first No-Code studio(EPYC) along with my bud Mayank 👉\n\nWe've built products for startups without code that scaled to become unicorns later.",
+      image: '/src/assets/Keshav.png',
     },
     faqs: {
       title: "FAQs: Here's everything you may ask...",

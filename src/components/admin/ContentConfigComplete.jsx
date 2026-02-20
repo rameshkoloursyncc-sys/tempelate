@@ -73,7 +73,12 @@ const ContentConfigComplete = ({ content, onChange }) => {
       ctaText: '',
       videoUrl: '',
       mentorName: '',
-      mentorSubtitle: ''
+      mentorSubtitle: '',
+      logo: '',
+      ctaIcon: '',
+      videoThumbnail: '',
+      videoPlayIcon: '',
+      mentorImage: '',
     });
 
     return (
@@ -176,6 +181,45 @@ const ContentConfigComplete = ({ content, onChange }) => {
               placeholder="Our Students have worked in"
             />
           </div>
+
+          {/* Image URLs Section */}
+          <div className="p-4 bg-purple-50 rounded-lg space-y-4 border-2 border-purple-200">
+            <h4 className="font-semibold text-gray-800 flex items-center gap-2">
+              <span>🖼️</span> Images & Icons
+            </h4>
+            
+            <InputField
+              label="CTA Button Icon URL"
+              value={hero.ctaIcon}
+              onChange={(v) => onChange({ ...content, hero: { ...hero, ctaIcon: v } })}
+              placeholder="/src/assets/wf-buton-arrow.svg or https://..."
+              type="url"
+            />
+            
+            <InputField
+              label="Video Thumbnail URL"
+              value={hero.videoThumbnail}
+              onChange={(v) => onChange({ ...content, hero: { ...hero, videoThumbnail: v } })}
+              placeholder="/src/assets/thumbnil.jpeg or https://..."
+              type="url"
+            />
+            
+            <InputField
+              label="Video Play Icon URL"
+              value={hero.videoPlayIcon}
+              onChange={(v) => onChange({ ...content, hero: { ...hero, videoPlayIcon: v } })}
+              placeholder="/src/assets/Playbutton.svg or https://..."
+              type="url"
+            />
+            
+            <InputField
+              label="Mentor Image URL"
+              value={hero.mentorImage}
+              onChange={(v) => onChange({ ...content, hero: { ...hero, mentorImage: v } })}
+              placeholder="/src/assets/Keshav.png or https://..."
+              type="url"
+            />
+          </div>
         </div>
       </SectionCard>
     );
@@ -183,7 +227,7 @@ const ContentConfigComplete = ({ content, onChange }) => {
 
   // Intro Section
   const renderIntro = () => {
-    const intro = getSection('intro', { title: '', emoji: '👇', ctaText: '' });
+    const intro = getSection('intro', { title: '', emoji: '👇', ctaText: '', image: '' });
 
     return (
       <SectionCard title="Intro Section" description="Appears after hero section">
@@ -206,6 +250,16 @@ const ContentConfigComplete = ({ content, onChange }) => {
               value={intro.ctaText}
               onChange={(v) => onChange({ ...content, intro: { ...intro, ctaText: v } })}
               placeholder="Enroll Now"
+            />
+          </div>
+          
+          <div className="p-4 bg-green-50 rounded-lg border-2 border-green-200">
+            <InputField
+              label="Background Image URL"
+              value={intro.image}
+              onChange={(v) => onChange({ ...content, intro: { ...intro, image: v } })}
+              placeholder="/src/assets/5f2db973311dff83f9829e34_webflow-home-hero-1.png or https://..."
+              type="url"
             />
           </div>
         </div>
@@ -356,7 +410,7 @@ const ContentConfigComplete = ({ content, onChange }) => {
 
   // Curriculum Section
   const renderCurriculum = () => {
-    const curriculum = getSection('curriculum', { title: '', modules: [] });
+    const curriculum = getSection('curriculum', { title: '', modules: [], certificateImage: '' });
 
     return (
       <SectionCard title="Curriculum" description="Course modules and lessons">
@@ -415,6 +469,18 @@ const ContentConfigComplete = ({ content, onChange }) => {
                 placeholder="What students will learn..."
                 rows={3}
               />
+              
+              <InputField
+                label="Module Image URL"
+                value={module.image}
+                onChange={(v) => {
+                  const newModules = [...curriculum.modules];
+                  newModules[index] = { ...newModules[index], image: v };
+                  onChange({ ...content, curriculum: { ...curriculum, modules: newModules } });
+                }}
+                placeholder="/src/assets/module-image.webp or https://..."
+                type="url"
+              />
             </div>
           ))}
 
@@ -422,8 +488,8 @@ const ContentConfigComplete = ({ content, onChange }) => {
             onClick={() => onChange({
               ...content,
               curriculum: {
-                ...content.curriculum,
-                modules: [...curriculum.modules, { number: '', title: '', description: '' }]
+                ...curriculum,
+                modules: [...curriculum.modules, { number: '', title: '', description: '', image: '' }]
               }
             })}
             className="w-full py-3 border-2 border-dashed border-gray-300 rounded-lg text-gray-600 hover:border-yellow-500 hover:text-yellow-500 transition flex items-center justify-center gap-2"
@@ -431,6 +497,20 @@ const ContentConfigComplete = ({ content, onChange }) => {
             <Plus className="w-4 h-4" />
             Add Module
           </button>
+          
+          {/* Certificate Image */}
+          <div className="p-4 bg-yellow-50 rounded-lg border-2 border-yellow-200 mt-6">
+            <h4 className="font-semibold text-gray-800 mb-3 flex items-center gap-2">
+              <span>🏆</span> Certificate Image
+            </h4>
+            <InputField
+              label="Certificate Image URL"
+              value={curriculum.certificateImage}
+              onChange={(v) => onChange({ ...content, curriculum: { ...curriculum, certificateImage: v } })}
+              placeholder="/src/assets/certificates.png or https://..."
+              type="url"
+            />
+          </div>
         </div>
       </SectionCard>
     );
@@ -683,7 +763,7 @@ const ContentConfigComplete = ({ content, onChange }) => {
 
   // Instructor Section
   const renderInstructor = () => {
-    const instructor = getSection('instructor', { name: '', title: '', bio: '' });
+    const instructor = getSection('instructor', { name: '', title: '', bio: '', image: '' });
 
     return (
       <SectionCard title="Instructor" description="About the course instructor">
@@ -702,6 +782,17 @@ const ContentConfigComplete = ({ content, onChange }) => {
               placeholder="Founder at EPYC & Magik"
             />
           </div>
+          
+          <div className="p-4 bg-violet-50 rounded-lg border-2 border-violet-200">
+            <InputField
+              label="Instructor Image URL"
+              value={instructor.image}
+              onChange={(v) => onChange({ ...content, instructor: { ...instructor, image: v } })}
+              placeholder="/src/assets/Keshav.png or https://..."
+              type="url"
+            />
+          </div>
+          
           <InputField
             label="Bio"
             value={instructor.bio}

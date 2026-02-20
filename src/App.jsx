@@ -76,17 +76,17 @@ function App() {
             cta={{
               text: config.content.hero.ctaText,
               link: "#",
-              icon: ArrowIcon,
+              icon: config.content.hero.ctaIcon || ArrowIcon,
             }}
             video={{
               url: config.content.hero.videoUrl,
-              thumbnail: Thumbnail,
-              playIcon: PlayIcon,
+              thumbnail: config.content.hero.videoThumbnail || Thumbnail,
+              playIcon: config.content.hero.videoPlayIcon || PlayIcon,
             }}
             mentor={{
               name: config.content.hero.mentorName,
               subtitle: config.content.hero.mentorSubtitle,
-              image: MentorImage,
+              image: config.content.hero.mentorImage || MentorImage,
             }}
             stats={config.content.stats}
           />
@@ -95,7 +95,7 @@ function App() {
             emoji={config.content.intro?.emoji || "👇"}
             title={config.content.intro?.title || "You can even build this website yourself"}
             cta={{ text: config.content.intro?.ctaText || "Enroll Now", link: "#" }}
-            image={WebflowHeroImage}
+            image={config.content.intro?.image || WebflowHeroImage}
           />
 
           <DescriptionSection
@@ -123,6 +123,7 @@ function App() {
                   cta: { text: "Enroll Now", link: "#" },
                 },
               ]}
+            certificateImage={config.content.curriculum?.certificateImage}
             cta={{ text: config.content.hero.ctaText, link: "#" }}
             disclaimer="Register before midnight to unlock these bonuses."
           />
@@ -173,7 +174,7 @@ function App() {
               name: config.content.instructor?.name || config.content.hero.mentorName,
               title: config.content.instructor?.title || "Founder at EPYC & Magik",
               bio: config.content.instructor?.bio || "Hey! I am a designer turned No-Code entrepreneur...",
-              image: MentorImage,
+              image: config.content.instructor?.image || MentorImage,
             }}
           />
 

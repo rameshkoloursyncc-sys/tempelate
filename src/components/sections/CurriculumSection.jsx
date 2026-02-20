@@ -1,12 +1,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
-import WebflowImg from "../../assets/wbflow-1-p-800.webp";
-import SubtractImg from "../../assets/Subtract.png";
-import EdtechImg from "../../assets/edtech.jpeg";
-import PortfolioImg from "../../assets/portfolio-1-1-p-800.webp";
-import CertificateImg from "../../assets/certificates.png";
 
-const CurriculumSection = ({ title, modules, cta, disclaimer }) => {
+const CurriculumSection = ({ title, modules, cta, disclaimer, certificateImage }) => {
   const sectionRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -14,8 +9,6 @@ const CurriculumSection = ({ title, modules, cta, disclaimer }) => {
   });
 
   const lineHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
-
-  const moduleImages = [WebflowImg, PortfolioImg, SubtractImg, EdtechImg, WebflowImg];
 
   return (
     <section ref={sectionRef} className="relative max-w-[1000px] m-auto px-4 py-20">
@@ -57,7 +50,7 @@ const CurriculumSection = ({ title, modules, cta, disclaimer }) => {
                     className="relative rounded-2xl overflow-hidden shadow-2xl"
                   >
                     <img
-                      src={moduleImages[index]}
+                      src={module.image || '/src/assets/wbflow-1-p-800.webp'}
                       alt={module.title}
                       className="w-[400px] h-auto"
                     />
@@ -129,7 +122,7 @@ const CurriculumSection = ({ title, modules, cta, disclaimer }) => {
               {/* Dark background padding */}
               <div className="relative bg-[#0f172a] rounded-[24px] p-4">
                 <img
-                  src={CertificateImg}
+                  src={certificateImage || '/src/assets/certificates.png'}
                   alt="Certificate"
                   className="w-full h-auto rounded-[20px]"
                 />

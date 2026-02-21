@@ -51,7 +51,8 @@ const CurriculumSection = ({ title, modules, cta, disclaimer, certificateImage }
                   >
                     <img
                       src={module.image || '/src/assets/wbflow-1-p-800.webp'}
-                      alt={module.title}
+                    
+                        onError={(e) => e.target.src = '/src/assets/wbflow-1-p-800.webp'}
                       className="w-[400px] h-auto"
                     />
                   </motion.div>

@@ -71,6 +71,7 @@ const ContentConfigComplete = ({ content, onChange }) => {
       title: { line1: '', strong1: '', strong2: '', line2: '', strong3: '' },
       tagline: '',
       ctaText: '',
+      ctaLink: '',
       videoUrl: '',
       mentorName: '',
       mentorSubtitle: '',
@@ -94,7 +95,7 @@ const ContentConfigComplete = ({ content, onChange }) => {
             placeholder="Build Custom Websites like"
           />
             <InputField
-            label="Logo Line 1"
+            label="Logo"
             value={hero.logo}
             onChange={(v) => onChange({
               ...content,
@@ -159,10 +160,27 @@ const ContentConfigComplete = ({ content, onChange }) => {
               placeholder="Enroll for ₹1,999"
             />
             <InputField
+              label="CTA Button Link"
+              value={hero.ctaLink}
+              onChange={(v) => onChange({ ...content, hero: { ...hero, ctaLink: v } })}
+              placeholder="#enroll or https://payment.com/checkout"
+              type="url"
+            />
+          </div>
+          
+          <div className="grid grid-cols-2 gap-4">
+            <InputField
               label="Video URL"
               value={hero.videoUrl}
               onChange={(v) => onChange({ ...content, hero: { ...hero, videoUrl: v } })}
               placeholder="https://vimeo.com/..."
+              type="url"
+            />
+            <InputField
+              label="Logo URL"
+              value={hero.logo}
+              onChange={(v) => onChange({ ...content, hero: { ...hero, logo: v } })}
+              placeholder="https://..."
               type="url"
             />
           </div>
@@ -227,7 +245,7 @@ const ContentConfigComplete = ({ content, onChange }) => {
 
   // Intro Section
   const renderIntro = () => {
-    const intro = getSection('intro', { title: '', emoji: '👇', ctaText: '', image: '' });
+    const intro = getSection('intro', { title: '', emoji: '👇', ctaText: '', ctaLink: '', image: '' });
 
     return (
       <SectionCard title="Intro Section" description="Appears after hero section">
@@ -238,7 +256,7 @@ const ContentConfigComplete = ({ content, onChange }) => {
             onChange={(v) => onChange({ ...content, intro: { ...intro, title: v } })}
             placeholder="You can even build this website yourself"
           />
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-3 gap-4">
             <InputField
               label="Emoji"
               value={intro.emoji}
@@ -250,6 +268,13 @@ const ContentConfigComplete = ({ content, onChange }) => {
               value={intro.ctaText}
               onChange={(v) => onChange({ ...content, intro: { ...intro, ctaText: v } })}
               placeholder="Enroll Now"
+            />
+            <InputField
+              label="CTA Link"
+              value={intro.ctaLink}
+              onChange={(v) => onChange({ ...content, intro: { ...intro, ctaLink: v } })}
+              placeholder="#enroll or https://..."
+              type="url"
             />
           </div>
           
@@ -337,42 +362,105 @@ const ContentConfigComplete = ({ content, onChange }) => {
 
   // Audiences Section
   const renderAudiences = () => {
-    const audiences = getSection('audiences', []);
+    const audiences = getSection('audiences', { 
+      title: '', 
+      list: [], 
+      ctaText: '', 
+      ctaLink: '', 
+      disclaimer: '' 
+    });
+    
+    // Handle backward compatibility - if audiences is an array, convert it
+    const audiencesList = Array.isArray(audiences) ? audiences : (audiences.list || []);
+    const isOldFormat = Array.isArray(audiences);
 
     return (
       <SectionCard title="Target Audiences" description="Who is this for?">
-        <div className="space-y-3">
-          {audiences.map((audience, index) => (
-            <div key={index} className="flex gap-2">
-              <input
-                type="text"
-                value={audience}
-                onChange={(e) => {
-                  const newAudiences = [...audiences];
-                  newAudiences[index] = e.target.value;
-                  onChange({ ...content, audiences: newAudiences });
-                }}
-                className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                placeholder="Designers"
-              />
-              <button
-                onClick={() => {
-                  const newAudiences = audiences.filter((_, i) => i !== index);
-                  onChange({ ...content, audiences: newAudiences });
-                }}
-                className="p-2.5 text-red-600 hover:bg-red-50 rounded-lg transition"
-              >
-                <Trash2 className="w-5 h-5" />
-              </button>
-            </div>
-          ))}
-          <button
-            onClick={() => onChange({ ...content, audiences: [...audiences, ''] })}
-            className="w-full py-3 border-2 border-dashed border-gray-300 rounded-lg text-gray-600 hover:border-pink-500 hover:text-pink-500 transition flex items-center justify-center gap-2"
-          >
-            <Plus className="w-4 h-4" />
-            Add Audience
-          </button>
+        <div className="space-y-4">
+          <InputField
+            label="Section Title"
+            value={isOldFormat ? 'Who is this program for?' : audiences.title}
+            onChange={(v) => onChange({ 
+              ...content, 
+              audiences: { ...audiences, title: v } 
+            })}
+            placeholder="Who is this program for?"
+          />
+          
+          <div className="space-y-3">
+            {audiencesList.map((audience, index) => (
+              <div key={index} className="flex gap-2">
+                <input
+                  type="text"
+                  value={audience}
+                  onChange={(e) => {
+                    const newList = [...audiencesList];
+                    newList[index] = e.target.value;
+                    onChange({ 
+                      ...content, 
+                      audiences: isOldFormat ? newList : { ...audiences, list: newList } 
+                    });
+                  }}
+                  className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  placeholder="Designers"
+                />
+                <button
+                  onClick={() => {
+                    const newList = audiencesList.filter((_, i) => i !== index);
+                    onChange({ 
+                      ...content, 
+                      audiences: isOldFormat ? newList : { ...audiences, list: newList } 
+                    });
+                  }}
+                  className="p-2.5 text-red-600 hover:bg-red-50 rounded-lg transition"
+                >
+                  <Trash2 className="w-5 h-5" />
+                </button>
+              </div>
+            ))}
+            <button
+              onClick={() => onChange({ 
+                ...content, 
+                audiences: isOldFormat ? [...audiencesList, ''] : { ...audiences, list: [...audiencesList, ''] } 
+              })}
+              className="w-full py-3 border-2 border-dashed border-gray-300 rounded-lg text-gray-600 hover:border-pink-500 hover:text-pink-500 transition flex items-center justify-center gap-2"
+            >
+              <Plus className="w-4 h-4" />
+              Add Audience
+            </button>
+          </div>
+          
+          <div className="grid grid-cols-2 gap-4 mt-4">
+            <InputField
+              label="CTA Button Text"
+              value={isOldFormat ? '' : audiences.ctaText}
+              onChange={(v) => onChange({ 
+                ...content, 
+                audiences: { ...audiences, ctaText: v } 
+              })}
+              placeholder="Enroll for ₹1,999"
+            />
+            <InputField
+              label="CTA Button Link"
+              value={isOldFormat ? '' : audiences.ctaLink}
+              onChange={(v) => onChange({ 
+                ...content, 
+                audiences: { ...audiences, ctaLink: v } 
+              })}
+              placeholder="#enroll or https://..."
+              type="url"
+            />
+          </div>
+          
+          <InputField
+            label="Disclaimer Text"
+            value={isOldFormat ? '' : audiences.disclaimer}
+            onChange={(v) => onChange({ 
+              ...content, 
+              audiences: { ...audiences, disclaimer: v } 
+            })}
+            placeholder="Register before midnight to unlock these bonuses."
+          />
         </div>
       </SectionCard>
     );
@@ -410,7 +498,7 @@ const ContentConfigComplete = ({ content, onChange }) => {
 
   // Curriculum Section
   const renderCurriculum = () => {
-    const curriculum = getSection('curriculum', { title: '', modules: [], certificateImage: '' });
+    const curriculum = getSection('curriculum', { title: '', modules: [], certificateImage: '', ctaText: '', ctaLink: '' });
 
     return (
       <SectionCard title="Curriculum" description="Course modules and lessons">
@@ -508,6 +596,23 @@ const ContentConfigComplete = ({ content, onChange }) => {
               value={curriculum.certificateImage}
               onChange={(v) => onChange({ ...content, curriculum: { ...curriculum, certificateImage: v } })}
               placeholder="/src/assets/certificates.png or https://..."
+              type="url"
+            />
+          </div>
+          
+          {/* Bottom CTA */}
+          <div className="grid grid-cols-2 gap-4 mt-6">
+            <InputField
+              label="Bottom CTA Text"
+              value={curriculum.ctaText}
+              onChange={(v) => onChange({ ...content, curriculum: { ...curriculum, ctaText: v } })}
+              placeholder="Enroll for ₹1,999"
+            />
+            <InputField
+              label="Bottom CTA Link"
+              value={curriculum.ctaLink}
+              onChange={(v) => onChange({ ...content, curriculum: { ...curriculum, ctaLink: v } })}
+              placeholder="#enroll or https://..."
               type="url"
             />
           </div>
@@ -699,7 +804,7 @@ const ContentConfigComplete = ({ content, onChange }) => {
 
   // Checklist Section
   const renderChecklist = () => {
-    const checklist = getSection('checklist', { title: '', subtitle: '', items: [] });
+    const checklist = getSection('checklist', { title: '', subtitle: '', items: [], ctaText: '', ctaLink: '' });
 
     return (
       <SectionCard title="Checklist" description="Interactive checklist for visitors">
@@ -747,7 +852,7 @@ const ContentConfigComplete = ({ content, onChange }) => {
             onClick={() => onChange({
               ...content,
               checklist: {
-                ...content.checklist,
+                ...checklist,
                 items: [...checklist.items, '']
               }
             })}
@@ -756,6 +861,23 @@ const ContentConfigComplete = ({ content, onChange }) => {
             <Plus className="w-4 h-4" />
             Add Checklist Item
           </button>
+          
+          {/* CTA Fields */}
+          <div className="grid grid-cols-2 gap-4 mt-6">
+            <InputField
+              label="CTA Button Text"
+              value={checklist.ctaText}
+              onChange={(v) => onChange({ ...content, checklist: { ...checklist, ctaText: v } })}
+              placeholder="Enroll for ₹1,999"
+            />
+            <InputField
+              label="CTA Button Link"
+              value={checklist.ctaLink}
+              onChange={(v) => onChange({ ...content, checklist: { ...checklist, ctaLink: v } })}
+              placeholder="#enroll or https://..."
+              type="url"
+            />
+          </div>
         </div>
       </SectionCard>
     );
@@ -895,7 +1017,7 @@ const ContentConfigComplete = ({ content, onChange }) => {
       <SectionCard title="Footer" description="Footer Section">
         <div className="space-y-4">
              <InputField
-            label="footer icon"
+            label="Footer icon"
             value={footer.domain?.icon}
             onChange={(v) => onChange({
               ...content, footer: {
@@ -906,7 +1028,7 @@ const ContentConfigComplete = ({ content, onChange }) => {
             placeholder="FAQs: Here's everything you may ask..."
           />
               <InputField
-            label="footer name"
+            label="Footer name"
             value={footer.domain?.name}
             onChange={(v) => onChange({
               ...content, footer: {
@@ -917,7 +1039,7 @@ const ContentConfigComplete = ({ content, onChange }) => {
             placeholder="FAQs: Here's everything you may ask..."
           />
               <InputField
-            label="footer name2"
+            label="Footer name2"
             value={footer.domain?.name2}
             onChange={(v) => onChange({
               ...content, footer: {
@@ -928,7 +1050,7 @@ const ContentConfigComplete = ({ content, onChange }) => {
             placeholder="FAQs: Here's everything you may ask..."
           />
           <InputField
-            label="footer Title"
+            label="Footer Title"
             value={footer.contents.title}
             onChange={(v) => onChange({
               ...content, footer: {
@@ -939,7 +1061,7 @@ const ContentConfigComplete = ({ content, onChange }) => {
             placeholder="FAQs: Here's everything you may ask..."
           />
           <InputField
-            label="footer email"
+            label="Footer email"
             value={footer.contents.email}
             onChange={(v) => onChange({
               ...content, footer: {
@@ -950,7 +1072,7 @@ const ContentConfigComplete = ({ content, onChange }) => {
             placeholder="FAQs: Here's everything you may ask..."
           />
           <InputField
-            label="footer copyrightText"
+            label="Footer CopyrightText"
             value={footer.contents.copyrightText}
             onChange={(v) => onChange({
               ...content, footer: {
@@ -961,7 +1083,7 @@ const ContentConfigComplete = ({ content, onChange }) => {
             placeholder="FAQs: Here's everything you may ask..."
           />
           <InputField
-            label="footer decsription"
+            label="Footer Decsription"
             value={footer.contents.decsription}
             onChange={(v) => onChange({
               ...content, footer: {
@@ -975,7 +1097,7 @@ const ContentConfigComplete = ({ content, onChange }) => {
           {footer.brandList.map((brand, index) => (
             <div key={index} className="p-4 bg-gray-50 rounded-lg space-y-3">
               <div className="flex justify-between items-center">
-                <span className="font-semibold text-gray-700">FAQ {index + 1}</span>
+                <span className="font-semibold text-gray-700">Social {index + 1}</span>
                  <button
                   onClick={() => {
                     const newBrandList = footer.brandList.filter((_, i) => i !== index);
@@ -983,14 +1105,14 @@ const ContentConfigComplete = ({ content, onChange }) => {
                       ...content, 
                       footer: { ...footer, brandList: newBrandList } 
                     });
-                  }}
+                  }}  
                   className="text-red-600 hover:bg-red-50 p-2 rounded"
                 >
                   <Trash2 className="w-4 h-4" />
                 </button>
               </div>
               <InputField
-                label="URl"
+                label="URL"
                 value={brand.logo}
                 onChange={(v) => {
                        const newbrandList = [...footer.brandList];
@@ -1002,7 +1124,7 @@ const ContentConfigComplete = ({ content, onChange }) => {
 
               />
               <InputField
-                label="title"
+                label="Title"
                 value={brand.title}
                 onChange={(v) => {
                   const newbrandList = [...footer.brandList];
@@ -1012,7 +1134,7 @@ const ContentConfigComplete = ({ content, onChange }) => {
                 placeholder="The answer to the title2..."
               />
                <InputField
-                label="title"
+                label="Description"
                 value={brand.title2}
                 onChange={(v) => {
                   const newbrandList = [...footer.brandList];

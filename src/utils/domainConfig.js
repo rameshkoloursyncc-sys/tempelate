@@ -4,10 +4,18 @@ import { footer } from "framer-motion/client";
  * Get configuration for current domain
  */
 export const getDomainConfig = () => {
-  // Get current domain (or use query param for testing)
+  // Priority 1: Use actual hostname (e.g., accs.fff)
+  // Priority 2: Use query param for testing (e.g., ?domain=accs.fff)
+  // Priority 3: Use default config
+  
   const urlParams = new URLSearchParams(window.location.search);
   const testDomain = urlParams.get('domain');
-  const currentDomain = testDomain || window.location.hostname;
+  const hostname = window.location.hostname;
+  
+  // Use hostname first, fallback to query param for localhost testing
+  const currentDomain = (hostname !== 'localhost' && hostname !== '127.0.0.1') 
+    ? hostname 
+    : testDomain;
 
   // Load all domain configs from localStorage
   const allConfigs = JSON.parse(localStorage.getItem('domainConfigs') || '{}');
@@ -69,6 +77,7 @@ export const getDefaultConfig = () => ({
       },
       tagline: 'Design and animate highly responsive custom websites using Webflow and bring your Portfolio to life',
       ctaText: 'Enroll for ₹1,999',
+      ctaLink: 'https://vimeo.com/659871207/f4df3defe9',
       videoUrl: 'https://vimeo.com/659871207/f4df3defe9',
       mentorName: 'Keshav Sharma',
       mentorSubtitle: 'Our Students have worked in',
@@ -81,6 +90,7 @@ export const getDefaultConfig = () => ({
       title: 'You can even build this website yourself',
       emoji: '👇',
       ctaText: 'Enroll Now',
+      ctaLink: 'https://vimeo.com/659871207/f4df3defe9',
       image: '/src/assets/5f2db973311dff83f9829e34_webflow-home-hero-1.png',
     },
     description: {
@@ -92,16 +102,22 @@ export const getDefaultConfig = () => ({
       { number: '4+', label: 'Projects' },
       { number: '₹3999', label: 'Only' },
     ],
-    audiences: [
-      'Designers',
-      'Developers',
-      'Entrepreneurs',
-      'Product Managers',
-      'Freelancers',
-      'Digital Marketers',
-      'Small Businesses',
-      'Students',
-    ],
+    audiences: {
+      title: 'Who is this program for?',
+      list: [
+        'Designers',
+        'Developers',
+        'Entrepreneurs',
+        'Product Managers',
+        'Freelancers',
+        'Digital Marketers',
+        'Small Businesses',
+        'Students',
+      ],
+      ctaText: 'Enroll for ₹1,999',
+      ctaLink: 'https://vimeo.com/659871207/f4df3defe9',
+      disclaimer: 'Register before midnight to unlock these bonuses.',
+    },
     curriculum: {
       title: 'What will you learn in the program?',
       modules: [
@@ -119,6 +135,8 @@ export const getDefaultConfig = () => ({
         },
       ],
       certificateImage: '/src/assets/certificates.png',
+      ctaText: 'Enroll for ₹1,999',
+      ctaLink: 'https://vimeo.com/659871207/f4df3defe9',
     },
     bonuses: {
       title: 'Unlock Bonuses Worth ₹20,000',
@@ -158,6 +176,8 @@ export const getDefaultConfig = () => ({
         'I am a Non-Techie who wants to generate a good passive income',
         "I am an Entrepreneur who doesn't want to spend a fortune on website development, but still needs a beautiful website.",
       ],
+      ctaText: 'Enroll for ₹1,999',
+      ctaLink: 'https://vimeo.com/659871207/f4df3defe9',
     },
     instructor: {
       name: 'Keshav Sharma',
@@ -187,12 +207,12 @@ export const getDefaultConfig = () => ({
   footer: {
     brandList: [
       {
-        logo: '',  // Will need to handle image upload later
+        logo: 'https://cdn-icons-png.flaticon.com/128/4138/4138124.png',  // Will need to handle image upload later
         title: 'LinkedIn',
         title2: 'Top Startup 2023'
       },
       {
-        logo: '',
+        logo: 'https://cdn-icons-png.flaticon.com/128/4138/4138124.png',
         title: 'Google',
         title2: 'Best Workplace'
       }

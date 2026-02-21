@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import Waves from '../../assets/waves_1.svg';
-
+import icons from '../../assets/icon.png'
 const HeroSection = ({
     title,
     tagline,
@@ -42,7 +42,10 @@ const HeroSection = ({
 
             {/* ===== TITLE ===== */}
             <div className='w-25 h-25 m-auto bg-transparent'>
-                <img src={logo} alt="Logo" className='bg-green' />
+                <img src={logo} alt="Your Icons "
+                 className='bg-green'
+                   onError={(e) => e.target.src = icons}
+                  />
             </div>
             <h1 className="text-5xl md:text-6xl font-bold leading-tight mt-6">
                 {title.line1} {" "}
@@ -124,7 +127,7 @@ const HeroSection = ({
 
             {/* ===== STATS GLASS CARD ===== */}
             <div className="mt-32 flex justify-center">
-                <div className="backdrop-blur-xl bg-[#ffffff0d] border border-white/5 rounded-3xl px-8 py-6 w-[90%] max-w-[900px] flex flex-col md:flex-row justify-between items-center gap-6 md:gap-0">
+                <div className="backdrop-blur-xl bg-[#ffffff0d] border border-white/5 rounded-3xl px-8 py-6 w-[90%] overflow-auto flex flex-col md:flex-row justify-between items-center gap-6 md:gap-0">
                     {stats.map((stat, index) => (
                         <div key={index} className="flex items-center w-full justify-center">
                             {/* Stat Block */}

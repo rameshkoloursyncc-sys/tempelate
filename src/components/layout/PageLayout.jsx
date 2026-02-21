@@ -5,9 +5,9 @@ const PageLayout = ({ children, showBottomWave = false }) => {
     <div style={{ 
   background: 'var(--color-primary)',
   color: 'var(--color-text)'
-}} className="relative min-h-screen bg-gradient-to-b from-[#0d0826] to-[#0d0826] -mt-20 pt-20">
+}} className="relative min-h-screen bg-gradient-to-b from-[#0d0826] to-[#0d0826] -mt-20 pt-20 overflow-x-hidden w-full">
       <BackgroundDecor showBottomWave={showBottomWave} />
-      <div className="relative z-10">{children}</div>
+      <div className="relative z-10 w-full overflow-x-hidden">{children}</div>
     </div>
   );
 };

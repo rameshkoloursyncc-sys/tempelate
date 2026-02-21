@@ -1,4 +1,5 @@
 import { footer } from "framer-motion/client";
+import { assets } from './assetImports';
 
 /**
  * Get configuration for current domain
@@ -81,17 +82,17 @@ export const getDefaultConfig = () => ({
       videoUrl: 'https://vimeo.com/659871207/f4df3defe9',
       mentorName: 'Keshav Sharma',
       mentorSubtitle: 'Our Students have worked in',
-      ctaIcon: '/src/assets/wf-buton-arrow.svg',
-      videoThumbnail: '/src/assets/thumbnil.jpeg',
-      videoPlayIcon: '/src/assets/Playbutton.svg',
-      mentorImage: '/src/assets/Keshav.png',
+      ctaIcon: assets.arrowIcon,
+      videoThumbnail: assets.thumbnail,
+      videoPlayIcon: assets.playIcon,
+      mentorImage: assets.mentorImage,
     },
     intro: {
       title: 'You can even build this website yourself',
       emoji: '👇',
       ctaText: 'Enroll Now',
       ctaLink: 'https://vimeo.com/659871207/f4df3defe9',
-      image: '/src/assets/5f2db973311dff83f9829e34_webflow-home-hero-1.png',
+      image: assets.webflowHeroImage,
     },
     description: {
       title: 'What is Webflow, and why should you care?',
@@ -125,16 +126,16 @@ export const getDefaultConfig = () => ({
           number: '01',
           title: 'Introduction to Webflow',
           description: '- What is No-Code web design\n- Technologies involved in web design\n- Overview of the Webflow designer',
-          image: '/src/assets/wbflow-1-p-800.webp',
+          image: assets.webflowImage,
         },
         {
           number: '02',
           title: 'Personal Portfolio Website',
           description: 'Build a personal website for yourself to showcase your skills to the world, and let the sales walk towards you.',
-          image: '/src/assets/portfolio-1-1-p-800.webp',
+          image: assets.edtechImage,
         },
       ],
-      certificateImage: '/src/assets/certificates.png',
+      certificateImage: assets.certificateImage,
       ctaText: 'Enroll for ₹1,999',
       ctaLink: 'https://vimeo.com/659871207/f4df3defe9',
     },

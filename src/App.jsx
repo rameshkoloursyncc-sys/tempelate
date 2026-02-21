@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import './App.css'
 import { ThemeProvider } from './contexts/ThemeContext'
 import { getDomainConfig } from './utils/domainConfig'
+import { resolveAsset } from './utils/assetImports'
 import PageLayout from './components/layout/PageLayout'
 import StickyHeader from './components/layout/StickyHeader'
 import Footer from './components/layout/Footer'
@@ -81,17 +82,17 @@ function App() {
             cta={{
               text: config.content.hero.ctaText,
               link: config.content.hero.ctaLink || "#",
-              icon: config.content.hero.ctaIcon || ArrowIcon,
+              icon: resolveAsset(config.content.hero.ctaIcon) || ArrowIcon,
             }}
             video={{
               url: config.content.hero.videoUrl,
-              thumbnail: config.content.hero.videoThumbnail || Thumbnail,
-              playIcon: config.content.hero.videoPlayIcon || PlayIcon,
+              thumbnail: resolveAsset(config.content.hero.videoThumbnail) || Thumbnail,
+              playIcon: resolveAsset(config.content.hero.videoPlayIcon) || PlayIcon,
             }}
             mentor={{
               name: config.content.hero.mentorName,
               subtitle: config.content.hero.mentorSubtitle,
-              image: config.content.hero.mentorImage || MentorImage,
+              image: resolveAsset(config.content.hero.mentorImage) || MentorImage,
             }}
             stats={config.content.stats}
           />
@@ -100,7 +101,7 @@ function App() {
             emoji={config.content.intro?.emoji || "👇"}
             title={config.content.intro?.title || "You can even build this website yourself"}
             cta={{ text: config.content.intro?.ctaText || "Enroll Now", link: config.content.intro?.ctaLink || "#" }}
-            image={config.content.intro?.image || WebflowHeroImage}
+            image={resolveAsset(config.content.intro?.image) || WebflowHeroImage}
           />
 
           <DescriptionSection
@@ -122,6 +123,7 @@ function App() {
             title={config.content.curriculum?.title || "What will you learn in the program?"}
             modules={config.content.curriculum?.modules?.map(m => ({
               ...m,
+              image: resolveAsset(m.image),
               cta: { text: "Enroll Now", link: "#" }
             })) || [
                 {
@@ -131,7 +133,7 @@ function App() {
                   cta: { text: "Enroll Now", link: "#" },
                 },
               ]}
-            certificateImage={config.content.curriculum?.certificateImage}
+            certificateImage={resolveAsset(config.content.curriculum?.certificateImage)}
             cta={{ 
               text: config.content.curriculum?.ctaText || config.content.hero.ctaText, 
               link: config.content.curriculum?.ctaLink || "#" 
@@ -188,7 +190,7 @@ function App() {
               name: config.content.instructor?.name || config.content.hero.mentorName,
               title: config.content.instructor?.title || "Founder at EPYC & Magik",
               bio: config.content.instructor?.bio || "Hey! I am a designer turned No-Code entrepreneur...",
-              image: config.content.instructor?.image || MentorImage,
+              image: resolveAsset(config.content.instructor?.image) || MentorImage,
             }}
           />
 
@@ -212,7 +214,10 @@ function App() {
           /> */}
 
           <Footer brandList={
-            config.content.footer?.brandList || 
+            config.content.footer?.brandList?.map(brand => ({
+              ...brand,
+              logo: resolveAsset(brand.logo) || brandlogos
+            })) || 
             [
            {
             logo: brandlogos,
@@ -229,12 +234,10 @@ function App() {
             decsription : 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quam cumque, eaque odit et nihil aliquid sunt, laborum, inventore ratione iusto culpa accusantium necessitatibus architecto aperiam.',
             copyrightText : "all rigjt reseved @ksjdnsjkf.dczsdv 1999"
           }}
-           domain={
-            config.content.footer?.domain || 
-            {
-            icon:PlayIcon,
-            name :"Name",
-            name2 : "Solg "
+           domain={{
+            icon: resolveAsset(config.content.footer?.domain?.icon) || PlayIcon,
+            name: config.content.footer?.domain?.name || "Name",
+            name2: config.content.footer?.domain?.name2 || "Solg "
           }}
           />
         </PageLayout>

@@ -8,6 +8,9 @@ import WebflowImage from '../assets/wbflow-1-p-800.webp'
 import CertificateImage from '../assets/certificates.png'
 import BrandLogo from '../assets/Playbutton.svg'
 import EdtechImage from '../assets/edtech.jpeg'
+import BriefcaseIcon from '../assets/bx_bx-briefcase-alt-2.svg'
+import CurrencyIcon from '../assets/carbon_currency-rupee.svg'
+import GrowthIcon from '../assets/uil_arrow-growth.svg'
 
 // Export all assets with their proper Vite URLs
 export const assets = {
@@ -20,6 +23,9 @@ export const assets = {
   edtechImage: EdtechImage, // Using edtech.jpeg as fallback for portfolio
   certificateImage: CertificateImage,
   brandLogo: BrandLogo,
+  briefcaseIcon: BriefcaseIcon,
+  currencyIcon: CurrencyIcon,
+  growthIcon: GrowthIcon,
 }
 
 // Helper function to resolve asset path
@@ -49,6 +55,9 @@ export const resolveAsset = (path) => {
     '/src/assets/portfolio-1-1-p-800.webp': assets.edtechImage, // Fallback to edtech
     '/src/assets/edtech.jpeg': assets.edtechImage,
     '/src/assets/certificates.png': assets.certificateImage,
+    '/src/assets/bx_bx-briefcase-alt-2.svg': assets.briefcaseIcon,
+    '/src/assets/carbon_currency-rupee.svg': assets.currencyIcon,
+    '/src/assets/uil_arrow-growth.svg': assets.growthIcon,
   }
   
   return assetMap[path] || path

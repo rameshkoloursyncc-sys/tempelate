@@ -1,3 +1,4 @@
+import { resolveAsset, assets } from '../../utils/assetImports';
 
 const OpportunitySection = ({ title, opportunities, }) => {
   return (
@@ -11,9 +12,9 @@ const OpportunitySection = ({ title, opportunities, }) => {
             className="rounded-3xl p-8 text-center items-center transition"
           >
             <img
-              src={opportunity.src || '/src/assets/bx_bx-briefcase-alt-2.svg'}
-              alt="waves"
-                onError={(e) => e.target.src = '/src/assets/bx_bx-briefcase-alt-2.svg'}
+              src={resolveAsset(opportunity.src) || assets.briefcaseIcon}
+              alt="opportunity icon"
+              onError={(e) => e.target.src = assets.briefcaseIcon}
               className="mx-auto block mb-4 w-10 h-10"
             />
             <h3

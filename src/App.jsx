@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import './App.css'
 import { ThemeProvider } from './contexts/ThemeContext'
-import { getDomainConfig } from './utils/domainConfig'
+import { getDomainConfig, getDomainConfigSync } from './utils/domainConfig'
 import { resolveAsset } from './utils/assetImports'
 import PageLayout from './components/layout/PageLayout'
 import StickyHeader from './components/layout/StickyHeader'

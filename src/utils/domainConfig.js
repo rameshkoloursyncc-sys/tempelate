@@ -6,12 +6,11 @@ import {transformApiResponse} from '../api/dataTransformer'
 /**
  * Get configuration for current domain
  */
-export const getDomainConfig =  async () => {
+export const getDomainConfig = async () => {
   // Priority 1: Use actual hostname (e.g., accs.fff)
   // Priority 2: Use query param for testing (e.g., ?domain=accs.fff)
   // Priority 3: Use default config
 
-  
   const urlParams = new URLSearchParams(window.location.search);
   const testDomain = urlParams.get('domain');
   const hostname = window.location.hostname;
@@ -20,33 +19,66 @@ export const getDomainConfig =  async () => {
   const currentDomain = (hostname !== 'localhost' && hostname !== '127.0.0.1') 
     ? hostname 
     : testDomain;
-    if(currentDomain){
-      console.log(`🔍 Trying API for domain: ${currentDomain}`);
+
+  // Skip API for Vercel preview domains
+  const isVercelDomain = currentDomain && currentDomain.includes('vercel.app');
+  
+  if (currentDomain && !isVercelDomain) {
+    console.log(`🔍 Trying API for domain: ${currentDomain}`);
+    try {
       const apiResponse = await getLandingPageByDomain(currentDomain);
-       if (apiResponse.success && apiResponse.data) {
-      console.log('✅ Using API configuration');
-      const transformedData = transformApiResponse(apiResponse.data);
-      
-      if (transformedData) {
-        // Cache in localStorage for offline use
-        try {
-          const allConfigs = JSON.parse(localStorage.getItem('domainConfigs') || '{}');
-          allConfigs[currentDomain] = transformedData;
-          localStorage.setItem('domainConfigs', JSON.stringify(allConfigs));
-          console.log('💾 Cached API response in localStorage');
-        } catch (e) {
-          console.warn('Failed to cache in localStorage:', e);
-        }
+      if (apiResponse.success && apiResponse.data) {
+        console.log('✅ Using API configuration');
+        const transformedData = transformApiResponse(apiResponse.data);
         
-        return transformedData;
+        if (transformedData) {
+          // Cache in localStorage for offline use
+          try {
+            const allConfigs = JSON.parse(localStorage.getItem('domainConfigs') || '{}');
+            allConfigs[currentDomain] = transformedData;
+            localStorage.setItem('domainConfigs', JSON.stringify(allConfigs));
+            console.log('💾 Cached API response in localStorage');
+          } catch (e) {
+            console.warn('Failed to cache in localStorage:', e);
+          }
+          
+          return transformedData;
+        }
       }
+    } catch (error) {
+      console.warn('⚠️ API fetch failed, falling back to localStorage/default');
     }
-    }
+  } else if (isVercelDomain) {
+    console.log('⚠️ Vercel domain detected, skipping API, using default config');
+  }
 
-  // Load all domain configs from localStorage
+  // 2. Try localStorage (cached or manually configured)
+  console.log('🔍 Trying localStorage');
   const allConfigs = JSON.parse(localStorage.getItem('domainConfigs') || '{}');
+  if (currentDomain && allConfigs[currentDomain]) {
+    console.log('✅ Using localStorage configuration');
+    return allConfigs[currentDomain];
+  }
 
-  // Return config for current domain or default
+  // 3. Use default config
+  console.log('✅ Using default configuration');
+  return getDefaultConfig();
+};
+
+/**
+ * Synchronous version for error fallback
+ * Only checks localStorage and default
+ */
+export const getDomainConfigSync = () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const testDomain = urlParams.get('domain');
+  const hostname = window.location.hostname;
+  
+  const currentDomain = (hostname !== 'localhost' && hostname !== '127.0.0.1') 
+    ? hostname 
+    : testDomain;
+
+  const allConfigs = JSON.parse(localStorage.getItem('domainConfigs') || '{}');
   return allConfigs[currentDomain] || getDefaultConfig();
 };
 

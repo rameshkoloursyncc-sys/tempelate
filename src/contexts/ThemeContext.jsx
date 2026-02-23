@@ -10,31 +10,34 @@ export const useTheme = () => {
   return context;
 };
 
-export const ThemeProvider = ({ children, theme }) => {
+export const ThemeProvider = ({ children, theme = defaultTheme }) => {
   useEffect(() => {
+    // Safety check - use default theme if theme is undefined or incomplete
+    const safeTheme = theme?.colors ? theme : defaultTheme;
+    
     // Apply CSS variables to root
     const root = document.documentElement;
     
     // Colors
-    root.style.setProperty('--color-primary', theme.colors.primary);
-    root.style.setProperty('--color-secondary', theme.colors.secondary);
-    root.style.setProperty('--color-accent', theme.colors.accent);
-    root.style.setProperty('--color-background', theme.colors.background);
-    root.style.setProperty('--color-surface', theme.colors.surface);
-    root.style.setProperty('--color-text', theme.colors.text);
+    root.style.setProperty('--color-primary', safeTheme.colors.primary);
+    root.style.setProperty('--color-secondary', safeTheme.colors.secondary);
+    root.style.setProperty('--color-accent', safeTheme.colors.accent);
+    root.style.setProperty('--color-background', safeTheme.colors.background);
+    root.style.setProperty('--color-surface', safeTheme.colors.surface);
+    root.style.setProperty('--color-text', safeTheme.colors.text);
     
     // Gradients
-    root.style.setProperty('--gradient-primary', theme.gradients.primary);
-    root.style.setProperty('--gradient-secondary', theme.gradients.secondary);
+    root.style.setProperty('--gradient-primary', safeTheme.gradients.primary);
+    root.style.setProperty('--gradient-secondary', safeTheme.gradients.secondary);
     
     // Fonts
-    root.style.setProperty('--font-primary', theme.fonts.primary);
-    root.style.setProperty('--font-secondary', theme.fonts.secondary);
+    root.style.setProperty('--font-primary', safeTheme.fonts.primary);
+    root.style.setProperty('--font-secondary', safeTheme.fonts.secondary);
     
   }, [theme]);
 
   return (
-    <ThemeContext.Provider value={theme}>
+    <ThemeContext.Provider value={theme || defaultTheme}>
       {children}
     </ThemeContext.Provider>
   );

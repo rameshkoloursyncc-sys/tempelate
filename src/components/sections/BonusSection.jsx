@@ -1,5 +1,7 @@
+import { Helmet } from "react-helmet";
 const BonusSection = ({ title, bonuses, subtitle }) => {
   return (
+    <>
     <section className="relative max-w-[1100px] mx-auto px-4 sm:px-6 py-12 sm:py-16 md:py-20">
       <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-white text-center mb-3 sm:mb-4">{title}</h2>
       <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white text-center mb-8 sm:mb-10 md:mb-12 px-4">{subtitle}</h2>
@@ -27,6 +29,7 @@ const BonusSection = ({ title, bonuses, subtitle }) => {
         ))}
       </div>
     </section>
+    </>
   );
 };
 

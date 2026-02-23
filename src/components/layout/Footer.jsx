@@ -1,5 +1,10 @@
+import { Helmet } from "react-helmet";
 const Footer = ({ brandList, contents , domain }) => {
   return (
+    <>
+       {/* <Helmet>
+          <title> {domain.name} +93</title>  
+        </Helmet> */}
     <footer
       style={{
         background: 'var(--color-background)',
@@ -97,6 +102,7 @@ const Footer = ({ brandList, contents , domain }) => {
         </div>
       </div>
     </footer>
+    </>
   );
 };
 

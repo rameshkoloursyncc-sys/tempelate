@@ -1,13 +1,16 @@
 import { footer } from "framer-motion/client";
 import { assets } from './assetImports';
+import { getLandingPageByDomain } from "../api/endpoints";
+import {transformApiResponse} from '../api/dataTransformer'
 
 /**
  * Get configuration for current domain
  */
-export const getDomainConfig = () => {
+export const getDomainConfig =  async () => {
   // Priority 1: Use actual hostname (e.g., accs.fff)
   // Priority 2: Use query param for testing (e.g., ?domain=accs.fff)
   // Priority 3: Use default config
+
   
   const urlParams = new URLSearchParams(window.location.search);
   const testDomain = urlParams.get('domain');
@@ -17,6 +20,28 @@ export const getDomainConfig = () => {
   const currentDomain = (hostname !== 'localhost' && hostname !== '127.0.0.1') 
     ? hostname 
     : testDomain;
+    if(currentDomain){
+      console.log(`🔍 Trying API for domain: ${currentDomain}`);
+      const apiResponse = await getLandingPageByDomain(currentDomain);
+       if (apiResponse.success && apiResponse.data) {
+      console.log('✅ Using API configuration');
+      const transformedData = transformApiResponse(apiResponse.data);
+      
+      if (transformedData) {
+        // Cache in localStorage for offline use
+        try {
+          const allConfigs = JSON.parse(localStorage.getItem('domainConfigs') || '{}');
+          allConfigs[currentDomain] = transformedData;
+          localStorage.setItem('domainConfigs', JSON.stringify(allConfigs));
+          console.log('💾 Cached API response in localStorage');
+        } catch (e) {
+          console.warn('Failed to cache in localStorage:', e);
+        }
+        
+        return transformedData;
+      }
+    }
+    }
 
   // Load all domain configs from localStorage
   const allConfigs = JSON.parse(localStorage.getItem('domainConfigs') || '{}');
@@ -69,6 +94,7 @@ export const getDefaultConfig = () => ({
   content: {
     hero: {
       logo : "https://vimeo.com/659871207/f4df3defe9",
+      favicon : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKtreOUi2qnK_wj9h4BJqWMlsu8JoCdr17IA&s",
       title: {
         line1: 'Build Custom Websites like',
         strong1: 'Apple',

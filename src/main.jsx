@@ -13,5 +13,5 @@ createRoot(document.getElementById('root')).render(
         <Route path="/admin" element={<AdminPanel />} />
       </Routes>
     </BrowserRouter>
-  </StrictMode>,
+  </StrictMode>
 )

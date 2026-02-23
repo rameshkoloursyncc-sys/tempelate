@@ -25,32 +25,61 @@ import MentorImage from './assets/Keshav.png'
 import WebflowHeroImage from './assets/5f2db973311dff83f9829e34_webflow-home-hero-1.png'
 import brandlogos from './assets/icon.png'
 import icons from './assets/icon.png'
-
-import { title } from 'framer-motion/client'
+import useFavicon from './hooks/useFavIcon'
 
 function App() {
   const [config, setConfig] = useState(null);
   const [loading, setLoading] = useState(true);
+  useFavicon(config?.content?.hero?.favicon);
+  // useEffect(() => {
+  //   // Load configuration for current domain
+  //   const domainConfig = getDomainConfig();
 
+  //   // Check if config is valid
+  //   if (!domainConfig || !domainConfig.content) {
+  //     console.warn('⚠️ No configuration found for this domain. Using default config.');
+  //   }
+
+  //   setConfig(domainConfig);
+  //   setLoading(false);
+
+  //   // Show which domain config is loaded
+  //   const hostname = window.location.hostname;
+  //   const urlParams = new URLSearchParams(window.location.search);
+  //   const testDomain = urlParams.get('domain');
+
+  //   if (hostname !== 'localhost' && hostname !== '127.0.0.1') {
+  //     console.log(`🌐 Loaded config for domain: ${hostname}`);
+  //   } else if (testDomain) {
+  //     console.log(`🌐 Testing with domain: ${testDomain}`);
+  //   } else {
+  //     console.log(`🌐 Using default configuration`);
+  //   }
+  // }, []);
   useEffect(() => {
-    // Load configuration for current domain
-    const domainConfig = getDomainConfig();
-    setConfig(domainConfig);
-    setLoading(false);
+  // Load configuration for current domain (async)
+  const loadConfig = async () => {
+    try {
+      const domainConfig = await getDomainConfig();
 
-    // Show which domain config is loaded
-    const hostname = window.location.hostname;
-    const urlParams = new URLSearchParams(window.location.search);
-    const testDomain = urlParams.get('domain');
-    
-    if (hostname !== 'localhost' && hostname !== '127.0.0.1') {
-      console.log(`🌐 Loaded config for domain: ${hostname}`);
-    } else if (testDomain) {
-      console.log(`🌐 Testing with domain: ${testDomain}`);
-    } else {
-      console.log(`🌐 Using default configuration`);
+      // Check if config is valid
+      if (!domainConfig || !domainConfig.content) {
+        console.warn('⚠️ No configuration found. Using default config.');
+      }
+
+      setConfig(domainConfig);
+    } catch (error) {
+      console.error('❌ Error loading config:', error);
+      // Use default config on error
+      setConfig(getDomainConfigSync());
+    } finally {
+      setLoading(false);
     }
-  }, []);
+  };
+
+  loadConfig();
+}, []);
+
 
   if (loading) {
     return (
@@ -61,6 +90,7 @@ function App() {
   }
 
   return (
+
     <ThemeProvider theme={config.theme}>
       <div className="relative overflow-x-hidden w-full">
         <StickyHeader offerText="🔥Early Bird Offer: Price resets to ₹4,999 when the timer below hits 0." />
@@ -68,7 +98,7 @@ function App() {
         <PageLayout showBottomWave={true}>
           <HeroSection
             title={config.content.hero.title}
-            logo={config.content.hero.logo || icons }
+            logo={config.content.hero.logo || icons}
             tagline={[
               { text: "Design", strong: true },
               { text: "and", strong: false },
@@ -112,9 +142,9 @@ function App() {
           <AudienceSection
             title={config.content.audiences?.title || "Who is this program for?"}
             audiences={config.content.audiences?.list || config.content.audiences || []}
-            cta={{ 
-              text: config.content.audiences?.ctaText || config.content.hero.ctaText, 
-              link: config.content.audiences?.ctaLink || "#" 
+            cta={{
+              text: config.content.audiences?.ctaText || config.content.hero.ctaText,
+              link: config.content.audiences?.ctaLink || "#"
             }}
             disclaimer={config.content.audiences?.disclaimer || "Register before midnight to unlock these bonuses."}
           />
@@ -134,9 +164,9 @@ function App() {
                 },
               ]}
             certificateImage={resolveAsset(config.content.curriculum?.certificateImage)}
-            cta={{ 
-              text: config.content.curriculum?.ctaText || config.content.hero.ctaText, 
-              link: config.content.curriculum?.ctaLink || "#" 
+            cta={{
+              text: config.content.curriculum?.ctaText || config.content.hero.ctaText,
+              link: config.content.curriculum?.ctaLink || "#"
             }}
             disclaimer="Register before midnight to unlock these bonuses."
           />
@@ -178,9 +208,9 @@ function App() {
               "I am a designer who wants to bring designs to life, but sadly doesn't know how to write code",
               "I am a Non-Techie who wants to generate a good passive income",
             ]}
-            cta={{ 
-              text: config.content.checklist?.ctaText || config.content.hero.ctaText, 
-              link: config.content.checklist?.ctaLink || "#" 
+            cta={{
+              text: config.content.checklist?.ctaText || config.content.hero.ctaText,
+              link: config.content.checklist?.ctaLink || "#"
             }}
           />
 
@@ -204,7 +234,7 @@ function App() {
             ]}
             disclaimer="Register before midnight to unlock these bonuses."
           />
-{/* 
+          {/* 
           <PricingSection
             offerTitle="🔥Early Bird Offer: Price resets to ₹4,999 when the timer below hits 0."
             discount={config.content.pricing.discount}
@@ -217,32 +247,33 @@ function App() {
             config.content.footer?.brandList?.map(brand => ({
               ...brand,
               logo: resolveAsset(brand.logo) || brandlogos
-            })) || 
+            })) ||
             [
-           {
-            logo: brandlogos,
-            title: "Linkdenin",
-            title2: "this is social",
-            link: "https://linkedin.com"
-          }
-        ]}
-          contents={
-            config.content.footer?.contents || 
-            {
-            title:"title",
-            email :"ehsossjkdn@dfdf.dcd",
-            decsription : 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quam cumque, eaque odit et nihil aliquid sunt, laborum, inventore ratione iusto culpa accusantium necessitatibus architecto aperiam.',
-            copyrightText : "all rigjt reseved @ksjdnsjkf.dczsdv 1999"
-          }}
-           domain={{
-            icon: resolveAsset(config.content.footer?.domain?.icon) || PlayIcon,
-            name: config.content.footer?.domain?.name || "Name",
-            name2: config.content.footer?.domain?.name2 || "Solg "
-          }}
+              {
+                logo: brandlogos,
+                title: "Linkdenin",
+                title2: "this is social",
+                link: "https://linkedin.com"
+              }
+            ]}
+            contents={
+              config.content.footer?.contents ||
+              {
+                title: "title",
+                email: "ehsossjkdn@dfdf.dcd",
+                decsription: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quam cumque, eaque odit et nihil aliquid sunt, laborum, inventore ratione iusto culpa accusantium necessitatibus architecto aperiam.',
+                copyrightText: "all rigjt reseved @ksjdnsjkf.dczsdv 1999"
+              }}
+            domain={{
+              icon: resolveAsset(config.content.footer?.domain?.icon) || PlayIcon,
+              name: config.content.footer?.domain?.name || "Name",
+              name2: config.content.footer?.domain?.name2 || "Solg "
+            }}
           />
         </PageLayout>
       </div>
     </ThemeProvider>
+
   )
 }
 

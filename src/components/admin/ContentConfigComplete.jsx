@@ -7,8 +7,22 @@ import {
 import { title } from 'framer-motion/client';
 
 // Move components outside to prevent recreation on each render
-const SectionCard = ({ children, title, description }) => (
+const SectionPreview = ({ imagePath, alt }) => (
+  <div className="mb-6 rounded-lg overflow-hidden border-2 border-gray-200 shadow-sm">
+    <img 
+      src={imagePath} 
+      alt={alt}
+      className="w-full h-auto object-cover"
+      onError={(e) => {
+        e.target.style.display = 'none';
+      }}
+    />
+  </div>
+);
+
+const SectionCard = ({ children, title, description, previewImage }) => (
   <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+    {previewImage && <SectionPreview imagePath={previewImage} alt={`${title} preview`} />}
     <div className="mb-6">
       <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
       {description && <p className="text-sm text-gray-500 mt-1">{description}</p>}
@@ -83,7 +97,11 @@ const ContentConfigComplete = ({ content, onChange }) => {
     });
 
     return (
-      <SectionCard title="Hero Section" description="The first thing visitors see">
+      <SectionCard 
+        title="Hero Section" 
+        description="The first thing visitors see"
+        previewImage="/hero.png"
+      >
         <div className="space-y-4">
           <InputField
             label="Title Line 1"
@@ -248,7 +266,11 @@ const ContentConfigComplete = ({ content, onChange }) => {
     const intro = getSection('intro', { title: '', emoji: '👇', ctaText: '', ctaLink: '', image: '' });
 
     return (
-      <SectionCard title="Intro Section" description="Appears after hero section">
+      <SectionCard 
+        title="Intro Section" 
+        description="Appears after hero section"
+        previewImage="/pageafterhero.png"
+      >
         <div className="space-y-4">
           <InputField
             label="Title"
@@ -297,7 +319,11 @@ const ContentConfigComplete = ({ content, onChange }) => {
     const description = getSection('description', { title: '', text: '' });
 
     return (
-      <SectionCard title="Description Section" description="Explain what your product is">
+      <SectionCard 
+        title="Description Section" 
+        description="Explain what your product is"
+        previewImage="/pageafterhero2.png"
+      >
         <div className="space-y-4">
           <InputField
             label="Title"
@@ -322,7 +348,11 @@ const ContentConfigComplete = ({ content, onChange }) => {
     const stats = getSection('stats', []);
 
     return (
-      <SectionCard title="Statistics" description="Show impressive numbers">
+      <SectionCard 
+        title="Statistics" 
+        description="Show impressive numbers"
+        previewImage="/statss.png"
+      >
         <div className="space-y-4">
           {stats.map((stat, index) => (
             <div key={index} className="grid grid-cols-2 gap-4 p-4 bg-gray-50 rounded-lg">
@@ -375,7 +405,11 @@ const ContentConfigComplete = ({ content, onChange }) => {
     const isOldFormat = Array.isArray(audiences);
 
     return (
-      <SectionCard title="Target Audiences" description="Who is this for?">
+      <SectionCard 
+        title="Target Audiences" 
+        description="Who is this for?"
+        previewImage="/audiances.png"
+      >
         <div className="space-y-4">
           <InputField
             label="Section Title"
@@ -471,7 +505,11 @@ const ContentConfigComplete = ({ content, onChange }) => {
     const pricing = getSection('pricing', { originalPrice: '', discountedPrice: '', discount: '' });
 
     return (
-      <SectionCard title="Pricing" description="Set your pricing details">
+      <SectionCard 
+        title="Pricing" 
+        description="Set your pricing details"
+        previewImage="/pricing.png"
+      >
         <div className="grid grid-cols-3 gap-4">
           <InputField
             label="Original Price"
@@ -501,7 +539,11 @@ const ContentConfigComplete = ({ content, onChange }) => {
     const curriculum = getSection('curriculum', { title: '', modules: [], certificateImage: '', ctaText: '', ctaLink: '' });
 
     return (
-      <SectionCard title="Curriculum" description="Course modules and lessons">
+      <SectionCard 
+        title="Curriculum" 
+        description="Course modules and lessons"
+        previewImage="/curriclum.png"
+      >
         <div className="space-y-4">
           <InputField
             label="Section Title"
@@ -626,7 +668,11 @@ const ContentConfigComplete = ({ content, onChange }) => {
     const bonuses = getSection('bonuses', { title: '', items: [] });
 
     return (
-      <SectionCard title="Bonuses" description="Extra value items">
+      <SectionCard 
+        title="Bonuses" 
+        description="Extra value items"
+        previewImage="/bonuses.png"
+      >
         <div className="space-y-4">
           <InputField
             label="Section Title"
@@ -694,7 +740,11 @@ const ContentConfigComplete = ({ content, onChange }) => {
     const urgency = getSection('urgency', { title: '', description: '', targetDate: '', cta: { text: '', link: '#' } });
 
     return (
-      <SectionCard title="Urgency Timer" description="Create urgency with countdown">
+      <SectionCard 
+        title="Urgency Timer" 
+        description="Create urgency with countdown"
+        previewImage="/urgencysection.png"
+      >
         <div className="space-y-4">
           <InputField
             label="Title"
@@ -737,7 +787,11 @@ const ContentConfigComplete = ({ content, onChange }) => {
     const opportunities = getSection('opportunities', { title: '', items: [] });
 
     return (
-      <SectionCard title="Opportunities" description="Career and business opportunities">
+      <SectionCard 
+        title="Opportunities" 
+        description="Career and business opportunities"
+        previewImage="/portofolio.png"
+      >
         <div className="space-y-4">
           <InputField
             label="Section Title"
@@ -807,7 +861,11 @@ const ContentConfigComplete = ({ content, onChange }) => {
     const checklist = getSection('checklist', { title: '', subtitle: '', items: [], ctaText: '', ctaLink: '' });
 
     return (
-      <SectionCard title="Checklist" description="Interactive checklist for visitors">
+      <SectionCard 
+        title="Checklist" 
+        description="Interactive checklist for visitors"
+        previewImage="/chekcbox.png"
+      >
         <div className="space-y-4">
           <InputField
             label="Title"
@@ -888,7 +946,11 @@ const ContentConfigComplete = ({ content, onChange }) => {
     const instructor = getSection('instructor', { name: '', title: '', bio: '', image: '' });
 
     return (
-      <SectionCard title="Instructor" description="About the course instructor">
+      <SectionCard 
+        title="Instructor" 
+        description="About the course instructor"
+        previewImage="/mentor.png"
+      >
         <div className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <InputField
@@ -932,7 +994,11 @@ const ContentConfigComplete = ({ content, onChange }) => {
     const faqs = getSection('faqs', { title: '', items: [] });
 
     return (
-      <SectionCard title="FAQs" description="Frequently asked questions">
+      <SectionCard 
+        title="FAQs" 
+        description="Frequently asked questions"
+        previewImage="/faqs.png"
+      >
         <div className="space-y-4">
           <InputField
             label="Section Title"
@@ -1014,7 +1080,11 @@ const ContentConfigComplete = ({ content, onChange }) => {
     });
 
     return (
-      <SectionCard title="Footer" description="Footer Section">
+      <SectionCard 
+        title="Footer" 
+        description="Footer Section"
+        previewImage="/footers.png"
+      >
         <div className="space-y-4">
              <InputField
             label="Footer icon"

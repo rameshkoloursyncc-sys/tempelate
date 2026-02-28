@@ -1,14 +1,23 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import ThemeConfig from '../components/admin/ThemeConfig';
 import ContentConfigComplete from '../components/admin/ContentConfigComplete';
 import DomainSelector from '../components/admin/DomainSelector';
+import ClientCreator from '../components/admin/ClientCreator';
 import AdminLayout from '../components/admin/AdminLayout';
+import { updateLandingPageContent, getLandingPageByDomain } from '../api/endpoints';
+import { transformApiResponse } from '../api/dataTransformer';
+import { isAuthenticated } from '../api/apiClient';
 
 const AdminPanel = () => {
+  const navigate = useNavigate();
   const [selectedDomain, setSelectedDomain] = useState('');
+  const [selectedUuid, setSelectedUuid] = useState(''); // Store UUID for API updates
   const [activeTab, setActiveTab] = useState('theme');
   const [hasChanges, setHasChanges] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
   const [config, setConfig] = useState({
     domain: '',
     theme: {
@@ -63,6 +72,14 @@ const AdminPanel = () => {
     },
   });
 
+  // Check authentication on mount
+  useEffect(() => {
+    if (!isAuthenticated()) {
+      toast.error('Please login to access admin panel');
+      navigate('/login');
+    }
+  }, [navigate]);
+
   const handleSave = () => {
     const allConfigs = JSON.parse(localStorage.getItem('domainConfigs') || '{}');
     allConfigs[selectedDomain] = config;
@@ -71,12 +88,55 @@ const AdminPanel = () => {
     toast.success(`Configuration saved for ${selectedDomain}!`);
   };
 
-  const handleLoad = (domain) => {
+  const handleLoad = async (domain) => {
+    // Try to load from API first
+    try {
+      const apiResponse = await getLandingPageByDomain(domain);
+      if (apiResponse.success && apiResponse.data) {
+        const transformedData = transformApiResponse(apiResponse.data);
+        if (transformedData) {
+          setConfig(transformedData);
+          setSelectedDomain(domain);
+          setSelectedUuid(apiResponse.data.uuid); // Store UUID for updates
+          setHasChanges(false);
+          toast.success(`Loaded from API: ${domain}`);
+          return;
+        }
+      }
+    } catch (error) {
+      console.warn('Failed to load from API, trying localStorage');
+    }
+
+    // Fallback to localStorage
     const allConfigs = JSON.parse(localStorage.getItem('domainConfigs') || '{}');
     if (allConfigs[domain]) {
       setConfig(allConfigs[domain]);
       setSelectedDomain(domain);
+      setSelectedUuid(''); // No UUID for local configs
       setHasChanges(false);
+      toast.success(`Loaded from localStorage: ${domain}`);
+    }
+  };
+
+  const handleSaveToApi = async () => {
+    if (!selectedUuid) {
+      toast.error('No UUID found. This domain is not in the API.');
+      return;
+    }
+
+    setSaving(true);
+    try {
+      const response = await updateLandingPageContent(selectedUuid, config.content);
+      if (response.success) {
+        setHasChanges(false);
+        toast.success('✅ Saved to API successfully!');
+      } else {
+        toast.error(`Failed to save: ${response.error}`);
+      }
+    } catch (error) {
+      toast.error(`Error: ${error.message}`);
+    } finally {
+      setSaving(false);
     }
   };
 
@@ -104,19 +164,32 @@ const AdminPanel = () => {
     setHasChanges(true);
   };
 
+  const handleClientCreated = (data) => {
+    console.log('New client created:', data);
+    // Trigger refresh of domain list
+    setRefreshTrigger(prev => prev + 1);
+  };
+
   return (
     <AdminLayout
       onSave={handleSave}
+      onSaveToApi={handleSaveToApi}
       onExport={handleExport}
       onPreview={handlePreview}
       selectedDomain={selectedDomain}
+      selectedUuid={selectedUuid}
       hasChanges={hasChanges}
+      saving={saving}
     >
+      {/* Client Creator */}
+      <ClientCreator onClientCreated={handleClientCreated} />
+
       {/* Domain Selector */}
       <DomainSelector
         selectedDomain={selectedDomain}
         onDomainChange={setSelectedDomain}
         onLoad={handleLoad}
+        refreshTrigger={refreshTrigger}
       />
 
       {selectedDomain && (
